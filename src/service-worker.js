@@ -1,9 +1,8 @@
 /* eslint-disable no-restricted-globals */
-import { precacheAndRoute } from 'workbox-precaching';
 import { clientsClaim } from 'workbox-core';
 
-// Import the precache manifest generated during the build
-precacheAndRoute(self.__WB_MANIFEST);
+// Workbox will automatically inject __WB_MANIFEST, so no need to manually call it
+// precacheAndRoute(self.__WB_MANIFEST); // Remove this if manually adding __WB_MANIFEST
 
 // Enable immediate claim of clients so the service worker can take control of pages as soon as it is activated
 clientsClaim();
