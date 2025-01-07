@@ -2,8 +2,11 @@
 import { precacheAndRoute } from 'workbox-precaching';
 import { clientsClaim } from 'workbox-core';
 
-// Import the precache manifest generated during the build
-precacheAndRoute(self.__WB_MANIFEST);
+// Ensure __WB_MANIFEST is available before calling precacheAndRoute
+if (self.__WB_MANIFEST) {
+    precacheAndRoute(self.__WB_MANIFEST);
+}
+
 
 // Enable immediate claim of clients so the service worker can take control of pages as soon as it is activated
 clientsClaim();
