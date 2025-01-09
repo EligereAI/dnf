@@ -11,7 +11,7 @@ const initialDtcList = [
     id: "P2138",
     description:
       'Throttle/Pedal Position Sensor/Switch "D"/"E" Voltage Correlation.',
-    status: "Inactive",
+    status: "Active",
     troubleshootUrl: "https://pwadev.elisa.live/dtc/p2138",
   },
   {
