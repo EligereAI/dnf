@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import DtcList from "./components/DtcList";
-import Troubleshoot from "./components/Troubleshoot";
 import PWADialog from "./components/PWADialog";
+import HandleReturn from "./components/HandleReturn";
 
 const App = () => {
   const [isPWAInstallable, setIsPWAInstallable] = useState(false);
@@ -48,10 +48,9 @@ const App = () => {
       )}
       <Routes>
         <Route path="/" element={<DtcList />} />
-        <Route path="/troubleshoot/:id" element={<Troubleshoot />} />
+        {/* <Route path="/troubleshoot/:id" element={<Troubleshoot />} /> */}
+        <Route path="/return" element={<HandleReturn />} />
       </Routes>
-    </>
-  );
-};
+</>)}
 
-export default App;
+export default App
