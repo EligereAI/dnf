@@ -1,4 +1,5 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
+import { useSearchParams } from 'react-router-dom';
 
 const initialDtcList = [
   {
@@ -29,9 +30,24 @@ const initialDtcList = [
 ];
 
 const DtcList = () => {
+  
+    const [dtcList, setDtcList] = useState(initialDtcList);
   const handleTroubleshoot = (url) => {
+   
     window.location.href = url;
   };
+
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('errorCode');
+  useEffect(()=>{
+    if (query) {
+      setDtcList((prevList) =>
+        prevList.filter((item) => item.id.toLowerCase() !== query.toLowerCase())
+      );
+      
+    }
+    },[])
+
 
   return (
     <div className="h-screen flex justify-center items-center ">
@@ -41,7 +57,7 @@ const DtcList = () => {
             <div className="bg-blue-500 text-white w-full py-4 px-3 text-left text-xl font-bold shadow-md">
               DTC List
             </div>
-            {initialDtcList.map((item, index) => (
+            {dtcList.map((item, index) => (
               <div
                 key={index}
                 className="bg-white shadow-lg p-2 border relative mb-2 mx-2"
