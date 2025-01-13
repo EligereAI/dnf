@@ -1,57 +1,59 @@
-import React,{useState,useEffect} from "react";
-import { useSearchParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const initialDtcList = [
   {
     id: "P2227",
     description: 'Barometric Pressure Sensor "A" Circuit Range/Performance',
     status: "Active",
-    troubleshootUrl: "https://pwadev.elisa.live/dtc/p2227",
+    troubleshootUrl: "http://localhost:4001/dtc/p2227?src=dnf",
   },
   {
     id: "P2138",
     description:
       'Throttle/Pedal Position Sensor/Switch "D"/"E" Voltage Correlation.',
     status: "Active",
-    troubleshootUrl: "https://pwadev.elisa.live/dtc/p2138",
+    troubleshootUrl: "http://localhost:4001/dtc/p2138?src=dnf",
   },
   {
     id: "P2128",
     description: 'Throttle/Pedal Position Sensor/Switch "E" Circuit High',
     status: "Active",
-    troubleshootUrl: "https://pwadev.elisa.live/dtc/p2128",
+    troubleshootUrl: "http://localhost:4001/dtc/p2128?src=dnf",
   },
   {
     id: "P1507",
     description: "Side Stand sensor short circuit to the ground.",
     status: "Active",
-    troubleshootUrl: "https://pwadev.elisa.live/dtc/1507",
+    troubleshootUrl: "http://localhost:4001/dtc/1507?src=dnf",
   },
 ];
 
 const DtcList = () => {
-  
-    const [dtcList, setDtcList] = useState(initialDtcList);
+  const [dtcList, setDtcList] = useState(initialDtcList);
+
   const handleTroubleshoot = (url) => {
-   
     window.location.href = url;
   };
 
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('errorCode');
-  useEffect(()=>{
+  const query = searchParams.get("errorCode");
+
+  useEffect(() => {
     if (query) {
       setDtcList((prevList) =>
-        prevList.filter((item) => item.id.toLowerCase() !== query.toLowerCase())
+        prevList.map((item) =>
+          item.id.toLowerCase() === query.toLowerCase()
+            ? { ...item, status: "Resolved" } // Mark as Resolved
+            : item
+        )
       );
-      
     }
-    },[])
-
+  }, [query]);
 
   return (
     <div className="h-screen flex justify-center items-center ">
-      <div className="bg-grey-100 flex flex-col items-center   h-[100vh] w-full">
+      <div className="bg-grey-100 flex flex-col items-center h-[100vh] w-full">
         <div className="border border-[#000000] h-full flex-grow flex flex-col items-center w-full ">
           <div className="flex-grow w-full">
             <div className="bg-blue-500 text-white w-full py-4 px-3 text-left text-xl font-bold shadow-md">
@@ -70,7 +72,7 @@ const DtcList = () => {
                     className={`${
                       item.status === "Active"
                         ? "text-red-500"
-                        : "text-gray-500"
+                        : "text-green-500"
                     } font-bold`}
                   >
                     {item.status}
@@ -81,12 +83,14 @@ const DtcList = () => {
                   <span className="text-sm text-gray-600">
                     {item.description}
                   </span>
-                  <button
-                    onClick={() => handleTroubleshoot(item.troubleshootUrl)}
-                    className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded hover:bg-blue-600"
-                  >
-                    Troubleshoot
-                  </button>
+                  {item.status === "Active" && (
+                    <button
+                      onClick={() => handleTroubleshoot(item.troubleshootUrl)}
+                      className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded hover:bg-blue-600"
+                    >
+                      Troubleshoot
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
@@ -96,7 +100,10 @@ const DtcList = () => {
             <button className="bg-blue-500 text-white py-2 px-4 sm:px-20 shadow hover:bg-blue-600 flex-1">
               REFRESH
             </button>
-            <button className="bg-red-500 text-white py-2 px-4 sm:px-20 shadow hover:bg-red-600 flex-1">
+            <button
+              onClick={() => setDtcList(initialDtcList)} // Reset the list
+              className="bg-red-500 text-white py-2 px-4 sm:px-20 shadow hover:bg-red-600 flex-1"
+            >
               CLEAR
             </button>
           </div>
