@@ -6,26 +6,26 @@ const initialDtcList = [
     id: "P2227",
     description: 'Barometric Pressure Sensor "A" Circuit Range/Performance',
     status: "Active",
-    troubleshootUrl: "http://localhost:4001/dtc/p2227?src=dnf",
+    troubleshootUrl: `https://pwadev.elisa.live//dtc/p2227?src=dnf`,
   },
   {
     id: "P2138",
     description:
       'Throttle/Pedal Position Sensor/Switch "D"/"E" Voltage Correlation.',
     status: "Active",
-    troubleshootUrl: "http://localhost:4001/dtc/p2138?src=dnf",
+    troubleshootUrl: `https://pwadev.elisa.live//dtc/p2138?src=dnf`,
   },
   {
     id: "P2128",
     description: 'Throttle/Pedal Position Sensor/Switch "E" Circuit High',
     status: "Active",
-    troubleshootUrl: "http://localhost:4001/dtc/p2128?src=dnf",
+    troubleshootUrl: `https://pwadev.elisa.live//dtc/p2128?src=dnf`,
   },
   {
     id: "P1507",
     description: "Side Stand sensor short circuit to the ground.",
     status: "Active",
-    troubleshootUrl: "http://localhost:4001/dtc/1507?src=dnf",
+    troubleshootUrl: `https://pwadev.elisa.live//dtc/1507?src=dnf`,
   },
 ];
 
@@ -44,7 +44,7 @@ const DtcList = () => {
       setDtcList((prevList) =>
         prevList.map((item) =>
           item.id.toLowerCase() === query.toLowerCase()
-            ? { ...item, status: "Resolved" } // Mark as Resolved
+            ? { ...item, status: "Resolved" } 
             : item
         )
       );
